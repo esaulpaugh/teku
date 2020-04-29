@@ -105,7 +105,8 @@ public class ValidatorsUtil {
         BeaconStateCache.getTransitionCaches(state).getValidatorIndex();
     SSZList<Validator> validators = state.getValidators(); // new, immutable collection
     Integer pos = validatorCache.get(publicKey, key -> getIndexForPublicKey(validators, publicKey));
-    return Optional.ofNullable(pos);
+    return Optional.ofNullable(pos)
+            .filter(index -> index < validators.size());
   }
 
   private static Integer getIndexForPublicKey(Iterable<Validator> validators, BLSPublicKey pubKey) {
